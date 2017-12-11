@@ -1,0 +1,85 @@
+<html>
+<head>
+    <title>challenge</title>
+    <link rel="stylesheet" type="text/css" href="theme.css">
+</head>
+<body>
+<div id="challange">
+    <div>
+        <h1>AMNE CHALLENGE</h1>
+    </div>
+    <div>
+        <p>Select the file using <strong>'choose File'</strong> button and </p>
+        <p>Print out the results to console using <strong>'Console Log Data'</strong> button</p>
+        <p>Download the results using <strong>'Download Data'</strong> button</p>
+    </div>
+    <div id="buttons">
+        <div id="file-container">
+            <input id="openFile" class="button" name="myFile" type="file">
+        </div>
+        <div id="log-container">
+            <button id="log-data" class="button" disabled="true">Console Log Data</button>
+        </div>
+        <div id="download-container">
+            <button id="download-data" class="button" disabled="true">Download Data</button>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    var fr = new FileReader();
+    /*reads the input file and sends the 2 lines of input to subRange function*/
+    function loading() {
+        var lines = fr.result.trim().split('\n');
+        if (lines.length < 2) {
+            throw "Error! Should have 2 lines in the input. Please check the file";
+        }
+        var firstLine = lines[0].split(' ');
+        var n = Number(firstLine[0]);
+        var k = Number(firstLine[1]);
+        var input = lines[1].split(' ').map(Number);
+        //console.log("input is "+input.length);
+        finalResult = subRange(input, n, k);
+        return finalResult;
+    }
+    /*downloads the file*/
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+    /*prints out the result in the console*/
+    document.getElementById("log-data").addEventListener('click', function () {
+        //console.log("onload called");
+        //console.log(this.result); //text file result
+        var finalResult = loading();
+        for (i = 0; i < finalResult.length; i++) {
+            console.log(finalResult[i]);
+        }
+    });
+    /*function to write the data to a file*/
+    document.getElementById("download-data").addEventListener('click', function () {
+        var finalResult = loading();
+        var resultStr = "";
+        for (i = 0; i < finalResult.length; i++) {
+            resultStr = resultStr.concat(finalResult[i], "\n");
+        }
+        download("Final.txt", resultStr);
+
+    });
+    /*enables and disables the buttons*/
+    document.getElementById("openFile").addEventListener('change', function () {
+        fr.onload = function () {
+            document.getElementById("log-data").disabled = false;
+            document.getElementById("download-data").disabled = false;
+            //console.log("file reading done");
+        };
+        fr.readAsText(this.files[0]);
+    })
+</script>
+<script src="subrange.js"></script>
+</html>

@@ -1,0 +1,25 @@
+#challange{
+	width:100%;
+	text-align: center;
+}
+p{
+	font-size: 24px;
+}
+#buttons{
+	width:100%;
+}
+#openFile{
+	padding-left:254px;
+	text-align:center;
+}
+#log-container{
+	padding:10px;
+}
+.button{
+	font-size: 20px;
+	padding: 15px 32px;
+}
+input[type="text"]{
+	padding: 15px 32px;
+}
+
